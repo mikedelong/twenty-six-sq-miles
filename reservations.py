@@ -14,6 +14,7 @@ from pathlib import Path
 from time import time
 
 from pandas import set_option
+import requests
 
 DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
 LOG_FORMAT = '%(asctime)s.%(msecs)03d - %(levelname)s - %(name)s - %(message)s'
@@ -34,5 +35,11 @@ if __name__ == '__main__':
 
     logger = getLogger()
     logger.info('started')
+
+    url = 'https://datahub-v2.arlingtonva.us/api/recreation/ParkFacilityReservations?$top=500'
+
+    resp = requests.get(url=url, params={})
+    data = resp.json()
+    logger.info(data)
 
     logger.info('total time: {:5.2f}s'.format(time() - time_start))
