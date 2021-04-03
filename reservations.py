@@ -36,9 +36,9 @@ if __name__ == '__main__':
     logger = getLogger()
     logger.info('started')
 
-    url = 'https://datahub-v2.arlingtonva.us/api/recreation/ParkFacilityReservations?$top=500'
+    URL = 'https://datahub-v2.arlingtonva.us/api/recreation/ParkFacilityReservations?$top=500'
 
-    resp = requests.get(url=url, params={})
+    resp = requests.get(url=URL, params={})
     data = resp.json()
     logger.info(data)
 
