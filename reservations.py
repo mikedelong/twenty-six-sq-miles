@@ -38,8 +38,8 @@ if __name__ == '__main__':
 
     URL = 'https://datahub-v2.arlingtonva.us/api/recreation/ParkFacilityReservations?$top=500'
 
-    resp = requests.get(url=URL, params={})
-    data = resp.json()
+    response = requests.get(url=URL, params={})
+    data = response.json()
     logger.info(data)
 
     logger.info('total time: {:5.2f}s'.format(time() - time_start))
