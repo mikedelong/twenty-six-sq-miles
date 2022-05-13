@@ -2,7 +2,6 @@
 Exploration of real estate assessments
 """
 
-import sys
 from logging import FileHandler
 from logging import INFO
 from logging import StreamHandler
@@ -10,10 +9,11 @@ from logging import basicConfig
 from logging import getLogger
 from os.path import basename
 from pathlib import Path
+from sys import stdout
 
-import requests
 from arrow import now
 from pandas import set_option
+from requests import get
 
 DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
 LOG_FORMAT = '%(asctime)s.%(msecs)03d - %(levelname)s - %(name)s - %(message)s'
@@ -28,7 +28,7 @@ if __name__ == '__main__':
     file_root_name = basename(__file__).replace('.py', '')
     LOGFILE = str(LOG_PATH / 'log-{}-{}.log'.format(run_start_time, file_root_name))
 
-    handlers = [FileHandler(LOGFILE), StreamHandler(sys.stdout)]
+    handlers = [FileHandler(LOGFILE), StreamHandler(stdout)]
     # noinspection PyArgumentList
     basicConfig(datefmt=DATE_FORMAT, format=LOG_FORMAT, handlers=handlers, level=INFO, )
 
@@ -37,7 +37,7 @@ if __name__ == '__main__':
 
     URL = 'https://datahub-v2.arlingtonva.us/api/RealEstate/Assessment?$top=500'
 
-    response = requests.get(url=URL, params={})
+    response = get(url=URL, params={})
     data = response.json()
     logger.info(data)
 
