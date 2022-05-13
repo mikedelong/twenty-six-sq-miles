@@ -2,7 +2,6 @@
 Exploration of real estate assessments
 """
 
-import datetime
 import sys
 from logging import FileHandler
 from logging import INFO
@@ -11,10 +10,10 @@ from logging import basicConfig
 from logging import getLogger
 from os.path import basename
 from pathlib import Path
-from time import time
 
-from pandas import set_option
 import requests
+from arrow import now
+from pandas import set_option
 
 DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
 LOG_FORMAT = '%(asctime)s.%(msecs)03d - %(levelname)s - %(name)s - %(message)s'
@@ -22,10 +21,10 @@ LOG_PATH = Path('./logs/')
 LOG_PATH.mkdir(exist_ok=True)
 
 if __name__ == '__main__':
-    time_start = time()
+    time_start = now()
 
     set_option('display.max_colwidth', None)  # was -1 and caused a warning
-    run_start_time = datetime.datetime.today().strftime('%Y-%m-%d_%H-%M-%S')
+    run_start_time = now().strftime('%Y-%m-%d_%H-%M-%S')
     file_root_name = basename(__file__).replace('.py', '')
     LOGFILE = str(LOG_PATH / 'log-{}-{}.log'.format(run_start_time, file_root_name))
 
@@ -42,4 +41,4 @@ if __name__ == '__main__':
     data = response.json()
     logger.info(data)
 
-    logger.info('total time: {:5.2f}s'.format(time() - time_start))
+    logger.info('total time: {:5.2f}s'.format((now() - time_start).total_seconds()))
