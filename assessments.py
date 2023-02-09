@@ -18,6 +18,7 @@ from requests import get
 DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
 LOG_FORMAT = '%(asctime)s.%(msecs)03d - %(levelname)s - %(name)s - %(message)s'
 LOG_PATH = Path('./logs/')
+OUTPUT_FOLDER = './data/'
 TOP = 101000
 
 if __name__ == '__main__':
@@ -36,6 +37,10 @@ if __name__ == '__main__':
     logger = getLogger()
     logger.info('started')
 
+    for folder in [OUTPUT_FOLDER]:
+        logger.info('creating folder %s if it does not exist', folder)
+        Path(folder).mkdir(parents=True, exist_ok=True)
+
     URL = 'https://datahub-v2.arlingtonva.us/api/RealEstate/Assessment?$top={}'.format(TOP)
 
     response = get(url=URL, params={})
@@ -49,7 +54,7 @@ if __name__ == '__main__':
     logger.info('%d', df['realEstatePropertyCode'].nunique())
 
     # write the DataFrame to CSV
-    output_file = './assessments.csv'
+    output_file = OUTPUT_FOLDER + 'assessments.csv'
     logger.info('writing %d rows of CSV to %s', len(df), output_file)
     df.to_csv(path_or_buf=output_file)
 
