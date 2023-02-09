@@ -18,6 +18,7 @@ from requests import get
 DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
 LOG_FORMAT = '%(asctime)s.%(msecs)03d - %(levelname)s - %(name)s - %(message)s'
 LOG_PATH = Path('./logs/')
+TOP = 101000
 
 if __name__ == '__main__':
     time_start = now()
@@ -35,13 +36,12 @@ if __name__ == '__main__':
     logger = getLogger()
     logger.info('started')
 
-    top = 101000
-    URL = 'https://datahub-v2.arlingtonva.us/api/RealEstate/Assessment?$top={}'.format(top)
+    URL = 'https://datahub-v2.arlingtonva.us/api/RealEstate/Assessment?$top={}'.format(TOP)
 
     response = get(url=URL, params={})
 
     df = DataFrame.from_records(data=response.json())
-    logger.info('top: %d rows: %d', top, len(df))
+    logger.info('top: %d rows: %d', TOP, len(df))
     # 'assessmentKey', 'provalLrsnId', 'realEstatePropertyCode', 'assessmentChangeReasonTypeDsc',
     # 'assessmentDate', 'improvementValueAmt', 'landValueAmt', 'totalValueAmt'
     for column in df.columns:
