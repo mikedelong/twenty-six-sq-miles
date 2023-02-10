@@ -7,11 +7,11 @@ from logging import INFO
 from logging import StreamHandler
 from logging import basicConfig
 from logging import getLogger
+from os.path import exists
 from pathlib import Path
 from sys import stdout
 
 from arrow import now
-from pandas import DataFrame
 from pandas import set_option
 from requests import get
 
@@ -41,11 +41,11 @@ if __name__ == '__main__':
         logger.info('creating folder %s if it does not exist', folder)
         Path(folder).mkdir(parents=True, exist_ok=True)
 
-    output_file = OUTPUT_FOLDER + 'Assessment.txt.gz'
-    logger.info('writing: %s', output_file)
-    with open(file=output_file, mode='wb') as output_fp:
-        response = get(url=URL, params={}, stream=True)
-        output_fp.write(response.content)
-
+    assessments_file = OUTPUT_FOLDER + 'Assessment.txt.gz'
+    if not exists(path=assessments_file):
+        logger.info('downloading: %s', assessments_file)
+        with open(file=assessments_file, mode='wb') as output_fp:
+            response = get(url=URL, params={}, stream=True)
+            output_fp.write(response.content)
 
     logger.info('total time: {:5.2f}s'.format((now() - time_start).total_seconds()))
