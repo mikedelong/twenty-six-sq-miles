@@ -12,6 +12,7 @@ from pathlib import Path
 from sys import stdout
 
 from arrow import now
+from pandas import read_csv
 from pandas import set_option
 from requests import get
 
@@ -47,5 +48,7 @@ if __name__ == '__main__':
         with open(file=assessments_file, mode='wb') as output_fp:
             response = get(url=URL, params={}, stream=True)
             output_fp.write(response.content)
+
+    df = read_csv(filepath_or_buffer=assessments_file, compression='infer', sep='|')
 
     logger.info('total time: {:5.2f}s'.format((now() - time_start).total_seconds()))
