@@ -14,8 +14,11 @@ from sys import stdout
 from arrow import now
 from pandas import read_csv
 from pandas import set_option
+from pandas import to_datetime
 from requests import get
 
+COLUMNS = ['AssessmentKey', 'ProvalLrsnId', 'RealEstatePropertyCode', 'AssessmentChangeReasonTypeDsc', 'AssessmentDate',
+           'ImprovementValueAmt', 'LandValueAmt', 'TotalValueAmt']
 DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
 LOG_FORMAT = '%(asctime)s.%(msecs)03d - %(levelname)s - %(name)s - %(message)s'
 LOG_PATH = Path('./logs/')
@@ -50,5 +53,9 @@ if __name__ == '__main__':
             output_fp.write(response.content)
 
     df = read_csv(filepath_or_buffer=assessments_file, compression='infer', sep='|')
+    logger.info(df.shape)
+    df['date'] = to_datetime(df['AssessmentDate'])
+    df['year'] = df['date'].apply(lambda x: x.year)
+
 
     logger.info('total time: {:5.2f}s'.format((now() - time_start).total_seconds()))
