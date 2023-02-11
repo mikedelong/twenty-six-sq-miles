@@ -56,6 +56,7 @@ if __name__ == '__main__':
     logger.info(df.shape)
     df['date'] = to_datetime(df['AssessmentDate'])
     df['year'] = df['date'].apply(lambda x: x.year)
-
+    for column in df.columns:
+        logger.info('unique count: %s %d', column, df[column].nunique())
 
     logger.info('total time: {:5.2f}s'.format((now() - time_start).total_seconds()))
