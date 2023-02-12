@@ -61,4 +61,9 @@ if __name__ == '__main__':
     max_year = df['year'].max()
     logger.info('year %d has %d rows', max_year, len(df[df['year'] == max_year]))
 
+    current_df = df[df['year'] == max_year]
+    logger.info('year %s n unique results:')
+    for column in current_df.columns:
+        logger.info('%s: %d', column, current_df[column].nunique())
+
     logger.info('total time: {:5.2f}s'.format((now() - time_start).total_seconds()))
