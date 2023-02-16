@@ -44,7 +44,6 @@ if __name__ == '__main__':
     result = get(url=URL)
 
     soup = BeautifulSoup(result.text, 'html.parser')
-    divs = [div for div in soup.find_all('div') if 'Owner\n' in div.text]
-
     body = soup.find('body')
+    site_inner = body.find_all('div', {'class': 'site-inner'})[0]
     logger.info('total time: {:5.2f}s'.format((now() - time_start).total_seconds()))
