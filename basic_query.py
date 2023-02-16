@@ -46,4 +46,5 @@ if __name__ == '__main__':
     soup = BeautifulSoup(result.text, 'html.parser')
     divs = [div for div in soup.find_all('div') if 'Owner\n' in div.text]
 
+    body = soup.find('body')
     logger.info('total time: {:5.2f}s'.format((now() - time_start).total_seconds()))
