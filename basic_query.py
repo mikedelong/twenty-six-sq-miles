@@ -46,4 +46,10 @@ if __name__ == '__main__':
     soup = BeautifulSoup(result.text, 'html.parser')
     body = soup.find('body')
     site_inner = body.find_all('div', {'class': 'site-inner'})[0]
+    wrapper = site_inner.find('div', {'class': 'content-sidebar-wrap'})
+    main = wrapper.find('main')
+    article = main.find('article')
+    entry_content = article.find('div', {'class': 'entry-content'})
+    divs = entry_content.find_all('div')
+    subs = divs[3].find_all('div')
     logger.info('total time: {:5.2f}s'.format((now() - time_start).total_seconds()))
