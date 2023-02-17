@@ -52,4 +52,11 @@ if __name__ == '__main__':
     entry_content = article.find('div', {'class': 'entry-content'})
     divs = entry_content.find_all('div')
     subs = divs[3].find_all('div')
+    subdivs = subs[0].find_all('div')
+    for item in subdivs:
+        pieces = item.text.split('\n')
+        pieces = [' '.join(piece.split()) for piece in pieces]
+        pieces = [piece for piece in pieces if piece]
+        if pieces:
+            logger.info(pieces)
     logger.info('total time: {:5.2f}s'.format((now() - time_start).total_seconds()))
