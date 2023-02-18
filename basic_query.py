@@ -53,10 +53,20 @@ if __name__ == '__main__':
     divs = entry_content.find_all('div')
     subs = divs[3].find_all('div')
     subdivs = subs[0].find_all('div')
-    for item in subdivs:
+    result = dict()
+    for index, item in enumerate(subdivs):
         pieces = item.text.split('\n')
         pieces = [' '.join(piece.split()) for piece in pieces]
         pieces = [piece for piece in pieces if piece]
         if pieces:
-            logger.info(pieces)
+            logger.info('%d %s', index, pieces)
+        if index == 1:
+            result['RPC'] = pieces[0]
+        elif index == 2:
+            result['Address'] = pieces[0]
+        elif index in {4, 5, 9, 10, 11, 13, 15, 16, 18, 19, 20, 22, 23, 24}:
+            result[pieces[0]] = pieces[1]
+        elif index == 6:
+            result[pieces[0]] = ' '.join(pieces[1:])
+    logger.info(result)
     logger.info('total time: {:5.2f}s'.format((now() - time_start).total_seconds()))
