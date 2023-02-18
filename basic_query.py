@@ -46,7 +46,7 @@ if __name__ == '__main__':
         Path(folder).mkdir(parents=True, exist_ok=True)
 
     documents = list()
-    for lrsn in range(17000,18000):
+    for lrsn in range(17000, 18000):
         url = URL.format(lrsn)
         logger.info(url)
         result = get(url=url)
@@ -75,7 +75,7 @@ if __name__ == '__main__':
                     document[pieces[0]] = pieces[1]
                 elif index == 6:
                     document[pieces[0]] = ' '.join(pieces[1:])
-
+                document['LRSN'] = lrsn
                 documents.append(document)
         if lrsn % 10 == 0:
             df = DataFrame(data=documents).drop_duplicates()
