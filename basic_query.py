@@ -25,6 +25,11 @@ ORIGINAL = 17540
 OUTPUT_FILE = 'df.csv'
 OUTPUT_FOLDER = './data/'
 URL = 'https://propertysearch.arlingtonva.us/Home/GeneralInformation?lrsn={}'
+USECOLS = ['LRSN', 'RPC', 'Address', 'Owner',
+       'Legal Description', 'Mailing Address', 'Year Built', 'Units', 'EU#',
+       'Property Class Code', 'Zoning', 'Lot Size', 'Neighborhood#',
+       'Map Book/Page', 'Polygon', 'Site Plan', 'Rezoning', 'Tax Exempt',
+       'Additional Owners', 'Trade Name', 'GFA', 'Condo Unit', 'Condo Model']
 
 if __name__ == '__main__':
     time_start = now()
@@ -47,7 +52,8 @@ if __name__ == '__main__':
         logger.info('creating folder %s if it does not exist', folder)
         Path(folder).mkdir(parents=True, exist_ok=True)
 
-    prior_df = read_csv(filepath_or_buffer=output_file)
+    prior_df = read_csv(filepath_or_buffer=output_file, usecols=USECOLS)
+
     documents = list()
     for lrsn in range(18000, 19000):
         if lrsn not in prior_df['LRSN'].values:
@@ -85,11 +91,11 @@ if __name__ == '__main__':
                 df = DataFrame(data=documents).drop_duplicates()
                 result_df = concat([df, prior_df]).drop_duplicates(ignore_index=True)
                 logger.info('writing %d records to %s', len(result_df), output_file)
-                result_df.to_csv(path_or_buf=output_file)
+                result_df.to_csv(path_or_buf=output_file, index=False)
     df = DataFrame(data=documents)
     result_df = concat([df, prior_df]).drop_duplicates(ignore_index=True)
     result_df = result_df.sort_values(by='LRSN')
     logger.info('writing %d records to %s', len(result_df), output_file)
-    result_df.to_csv(path_or_buf=output_file)
+    result_df.to_csv(path_or_buf=output_file, index=False)
 
     logger.info('total time: {:5.2f}s'.format((now() - time_start).total_seconds()))
