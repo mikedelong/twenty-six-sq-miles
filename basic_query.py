@@ -55,6 +55,7 @@ if __name__ == '__main__':
     prior_df = read_csv(filepath_or_buffer=output_file, usecols=USECOLS)
 
     documents = list()
+    # todo add code to cover Inactive listings
     for lrsn in range(19927, 21927):
         if lrsn not in prior_df['LRSN'].values:
             url = URL.format(lrsn)
