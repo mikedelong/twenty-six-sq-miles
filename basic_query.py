@@ -9,15 +9,15 @@ from logging import basicConfig
 from logging import getLogger
 from pathlib import Path
 from sys import stdout
+from time import sleep
 
 from arrow import now
 from bs4 import BeautifulSoup
-from pandas import read_csv
 from pandas import DataFrame
+from pandas import concat
+from pandas import read_csv
 from pandas import set_option
 from requests import get
-from pandas import concat
-from time import sleep
 
 DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
 LOG_FORMAT = '%(asctime)s.%(msecs)03d - %(levelname)s - %(name)s - %(message)s'
@@ -27,10 +27,10 @@ OUTPUT_FILE = 'df.csv'
 OUTPUT_FOLDER = './data/'
 URL = 'https://propertysearch.arlingtonva.us/Home/GeneralInformation?lrsn={}'
 USECOLS = ['LRSN', 'RPC', 'Address', 'Owner',
-       'Legal Description', 'Mailing Address', 'Year Built', 'Units', 'EU#',
-       'Property Class Code', 'Zoning', 'Lot Size', 'Neighborhood#',
-       'Map Book/Page', 'Polygon', 'Site Plan', 'Rezoning', 'Tax Exempt',
-       'Additional Owners', 'Trade Name', 'GFA', 'Condo Unit', 'Condo Model']
+           'Legal Description', 'Mailing Address', 'Year Built', 'Units', 'EU#',
+           'Property Class Code', 'Zoning', 'Lot Size', 'Neighborhood#',
+           'Map Book/Page', 'Polygon', 'Site Plan', 'Rezoning', 'Tax Exempt',
+           'Additional Owners', 'Trade Name', 'GFA', 'Condo Unit', 'Condo Model']
 
 if __name__ == '__main__':
     time_start = now()
