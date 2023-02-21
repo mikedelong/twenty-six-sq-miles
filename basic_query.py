@@ -17,6 +17,7 @@ from pandas import DataFrame
 from pandas import set_option
 from requests import get
 from pandas import concat
+from time import sleep
 
 DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
 LOG_FORMAT = '%(asctime)s.%(msecs)03d - %(levelname)s - %(name)s - %(message)s'
@@ -57,6 +58,7 @@ if __name__ == '__main__':
     documents = list()
     for lrsn in range(16193, 22000):
         if lrsn not in prior_df['LRSN'].values:
+            sleep(1)
             url = URL.format(lrsn)
             logger.info(url)
             result = get(url=url)
