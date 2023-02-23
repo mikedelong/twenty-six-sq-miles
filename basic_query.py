@@ -58,6 +58,7 @@ if __name__ == '__main__':
     documents = list()
     for lrsn in range(16193, 22000):
         if lrsn not in prior_df['LRSN'].values:
+            # todo wait randomly here
             sleep(1)
             url = URL.format(lrsn)
             logger.info(url)
