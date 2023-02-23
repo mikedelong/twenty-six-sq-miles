@@ -8,6 +8,7 @@ from logging import StreamHandler
 from logging import basicConfig
 from logging import getLogger
 from pathlib import Path
+from random import random
 from sys import stdout
 from time import sleep
 
@@ -18,7 +19,6 @@ from pandas import concat
 from pandas import read_csv
 from pandas import set_option
 from requests import get
-from random import random
 
 DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
 LOG_FORMAT = '%(asctime)s.%(msecs)03d - %(levelname)s - %(name)s - %(message)s'
@@ -60,7 +60,6 @@ if __name__ == '__main__':
     documents = list()
     for lrsn in range(381, 22000):
         if lrsn not in prior_df['LRSN'].values and lrsn not in SKIP:
-            # todo wait randomly here
             sleep(random())
             url = URL.format(lrsn)
             logger.info(url)
