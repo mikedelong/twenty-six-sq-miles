@@ -18,6 +18,7 @@ from pandas import concat
 from pandas import read_csv
 from pandas import set_option
 from requests import get
+from random import random
 
 DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
 LOG_FORMAT = '%(asctime)s.%(msecs)03d - %(levelname)s - %(name)s - %(message)s'
@@ -60,7 +61,7 @@ if __name__ == '__main__':
     for lrsn in range(381, 22000):
         if lrsn not in prior_df['LRSN'].values and lrsn not in SKIP:
             # todo wait randomly here
-            sleep(1)
+            sleep(random())
             url = URL.format(lrsn)
             logger.info(url)
             result = get(url=url)
