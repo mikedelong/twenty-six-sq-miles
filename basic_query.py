@@ -25,7 +25,7 @@ LOG_PATH = Path('./logs/')
 ORIGINAL = 17540
 OUTPUT_FILE = 'df.csv'
 OUTPUT_FOLDER = './data/'
-URL = 'https://propertysearch.arlingtonva.us/Home/GeneralInformation?lrsn={}'
+URL = 'https://propertysearch.arlingtonva.us/Home/GeneralInformation?lrsn={:05d}'
 USECOLS = ['LRSN', 'RPC', 'Address', 'Owner',
            'Legal Description', 'Mailing Address', 'Year Built', 'Units', 'EU#',
            'Property Class Code', 'Zoning', 'Lot Size', 'Neighborhood#',
@@ -56,7 +56,7 @@ if __name__ == '__main__':
     prior_df = read_csv(filepath_or_buffer=output_file, usecols=USECOLS)
 
     documents = list()
-    for lrsn in range(16193, 22000):
+    for lrsn in range(200, 22000):
         if lrsn not in prior_df['LRSN'].values:
             # todo wait randomly here
             sleep(1)
