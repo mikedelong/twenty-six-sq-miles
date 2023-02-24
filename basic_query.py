@@ -56,6 +56,7 @@ if __name__ == '__main__':
 
     prior_df = read_csv(filepath_or_buffer=output_file, usecols=USECOLS)
 
+    # todo add the fetched date
     documents = list()
     for lrsn in range(163, 22000):
         if lrsn not in prior_df['LRSN'].values and lrsn not in SKIP:
