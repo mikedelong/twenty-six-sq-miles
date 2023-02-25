@@ -56,7 +56,6 @@ if __name__ == '__main__':
 
     prior_df = read_csv(filepath_or_buffer=output_file, usecols=USECOLS)
 
-    # todo add the fetched date
     documents = list()
     for lrsn in range(163, 22000):
         if lrsn not in prior_df['LRSN'].values and lrsn not in SKIP:
@@ -110,6 +109,7 @@ if __name__ == '__main__':
                         elif index == 6:
                             document[pieces[0]] = ' '.join(pieces[1:])
             document['LRSN'] = lrsn
+            document['fetched'] = now()
             documents.append(document)
             if lrsn % 10 == 0:
                 df = DataFrame(data=documents).drop_duplicates()
