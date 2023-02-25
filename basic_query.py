@@ -27,7 +27,7 @@ OUTPUT_FILE = 'df.csv'
 OUTPUT_FOLDER = './data/'
 SKIP = {381, 2782, 2791, 4287, }
 URL = 'https://propertysearch.arlingtonva.us/Home/GeneralInformation?lrsn={:05d}'
-USECOLS = ['LRSN', 'RPC', 'Address', 'Owner',
+USECOLS = ['LRSN', 'fetched', 'RPC', 'Address', 'Owner',
            'Legal Description', 'Mailing Address', 'Year Built', 'Units', 'EU#',
            'Property Class Code', 'Zoning', 'Lot Size', 'Neighborhood#',
            'Map Book/Page', 'Polygon', 'Site Plan', 'Rezoning', 'Tax Exempt',
@@ -57,7 +57,9 @@ if __name__ == '__main__':
     prior_df = read_csv(filepath_or_buffer=output_file, usecols=USECOLS)
 
     documents = list()
-    for lrsn in range(163, 22000):
+    for lrsn in range(162, 22000):
+        do_case = (lrsn not in SKIP)
+        do_case |= (lrsn not in prior_df['LRSN'].values | prior_df['fetched'].isna())
         if lrsn not in prior_df['LRSN'].values and lrsn not in SKIP:
             sleep(random())
             url = URL.format(lrsn)
