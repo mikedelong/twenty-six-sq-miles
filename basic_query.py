@@ -25,7 +25,7 @@ LOG_FORMAT = '%(asctime)s.%(msecs)03d - %(levelname)s - %(name)s - %(message)s'
 LOG_PATH = Path('./logs/')
 OUTPUT_FILE = 'df.csv'
 OUTPUT_FOLDER = './data/'
-SKIP = {381, 2782, 2791}
+SKIP = {381, 2782, 2791, 4287, }
 URL = 'https://propertysearch.arlingtonva.us/Home/GeneralInformation?lrsn={:05d}'
 USECOLS = ['LRSN', 'RPC', 'Address', 'Owner',
            'Legal Description', 'Mailing Address', 'Year Built', 'Units', 'EU#',
