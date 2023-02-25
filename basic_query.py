@@ -57,10 +57,10 @@ if __name__ == '__main__':
     prior_df = read_csv(filepath_or_buffer=output_file, usecols=USECOLS)
 
     documents = list()
-    for lrsn in range(162, 22000):
+    for lrsn in range(161, 22000):
         do_case = (lrsn not in SKIP)
         do_case |= (lrsn not in prior_df['LRSN'].values | prior_df['fetched'].isna())
-        if lrsn not in prior_df['LRSN'].values and lrsn not in SKIP:
+        if do_case:
             sleep(random())
             url = URL.format(lrsn)
             logger.info(url)
@@ -112,6 +112,8 @@ if __name__ == '__main__':
                             document[pieces[0]] = ' '.join(pieces[1:])
             document['LRSN'] = lrsn
             document['fetched'] = now()
+            if lrsn in prior_df['LRSN'].values:
+                prior_df = prior_df[prior_df['LRSN'] != lrsn]
             documents.append(document)
             if lrsn % 10 == 0:
                 df = DataFrame(data=documents).drop_duplicates()
