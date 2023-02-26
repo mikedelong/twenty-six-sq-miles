@@ -60,7 +60,10 @@ if __name__ == '__main__':
     documents = list()
     for lrsn in range(161, 22000):
         do_case = (lrsn not in SKIP)
-        do_case &= (lrsn not in prior_df['LRSN'].values | prior_df['fetched'].isna())
+        do_case &= lrsn not in prior_df['LRSN'].values
+        if lrsn in prior_df['LRSN'].values:
+            lrsn_df = prior_df[prior_df['LRSN'] == lrsn]
+            do_case &= lrsn_df['fetched'].isna().sum() == 1
         if do_case:
             url = URL.format(lrsn)
             logger.info(url)
@@ -125,6 +128,7 @@ if __name__ == '__main__':
             document['fetched'] = now()
             if lrsn in prior_df['LRSN'].values:
                 prior_df = prior_df[prior_df['LRSN'] != lrsn]
+                logger.info('dropping LRSN %d from prior', lrsn)
             documents.append(document)
             if lrsn % 10 == 0:
                 df = DataFrame(data=documents).drop_duplicates()
