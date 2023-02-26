@@ -19,6 +19,7 @@ from pandas import concat
 from pandas import read_csv
 from pandas import set_option
 from requests import get
+from requests.exceptions import ConnectionError
 
 DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
 LOG_FORMAT = '%(asctime)s.%(msecs)03d - %(levelname)s - %(name)s - %(message)s'
@@ -61,10 +62,20 @@ if __name__ == '__main__':
         do_case = (lrsn not in SKIP)
         do_case &= (lrsn not in prior_df['LRSN'].values | prior_df['fetched'].isna())
         if do_case:
-            sleep(random())
             url = URL.format(lrsn)
             logger.info(url)
-            result = get(url=url)
+
+            success = False
+            sleep_period = random()
+            result = None
+            while not success:
+                sleep(sleep_period)
+                try:
+                    result = get(url=url)
+                    success = True
+                except ConnectionError as error:
+                    sleep_period *= 2.0
+                    logger.warning('connection error: sleeping %0.2d', sleep_period)
 
             soup = BeautifulSoup(result.text, 'html.parser')
             body = soup.find('body')
