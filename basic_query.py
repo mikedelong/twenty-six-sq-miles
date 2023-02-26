@@ -25,7 +25,7 @@ LOG_FORMAT = '%(asctime)s.%(msecs)03d - %(levelname)s - %(name)s - %(message)s'
 LOG_PATH = Path('./logs/')
 OUTPUT_FILE = 'df.csv'
 OUTPUT_FOLDER = './data/'
-SKIP = {381, 2782, 2791, 4287, }
+SKIP = {381, 2782, 2791, 4287, 18766, }
 URL = 'https://propertysearch.arlingtonva.us/Home/GeneralInformation?lrsn={:05d}'
 USECOLS = ['LRSN', 'fetched', 'RPC', 'Address', 'Owner',
            'Legal Description', 'Mailing Address', 'Year Built', 'Units', 'EU#',
@@ -59,7 +59,7 @@ if __name__ == '__main__':
     documents = list()
     for lrsn in range(161, 22000):
         do_case = (lrsn not in SKIP)
-        do_case |= (lrsn not in prior_df['LRSN'].values | prior_df['fetched'].isna())
+        do_case &= (lrsn not in prior_df['LRSN'].values | prior_df['fetched'].isna())
         if do_case:
             sleep(random())
             url = URL.format(lrsn)
