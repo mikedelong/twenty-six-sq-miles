@@ -82,7 +82,7 @@ if __name__ == '__main__':
                     logger.warning('connection error: sleeping %0.2f', sleep_period)
                 except ReadTimeout as error:
                     sleep_period *= 2.0
-                    logger.warning('sleep timeout: sleeping %0.2f', sleep_period)
+                    logger.warning('read timeout: sleeping %0.2f', sleep_period)
 
             soup = BeautifulSoup(result.text, 'html.parser')
             body = soup.find('body')
