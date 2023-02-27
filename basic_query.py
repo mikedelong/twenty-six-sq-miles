@@ -20,13 +20,14 @@ from pandas import read_csv
 from pandas import set_option
 from requests import get
 from requests.exceptions import ConnectionError
+from requests.exceptions import ReadTimeout
 
 DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
 LOG_FORMAT = '%(asctime)s.%(msecs)03d - %(levelname)s - %(name)s - %(message)s'
 LOG_PATH = Path('./logs/')
 OUTPUT_FILE = 'df.csv'
 OUTPUT_FOLDER = './data/'
-SKIP = {381, 2782, 2791, 4287, 18766, }
+SKIP = {381, 2782, 2791, 4287, 6056, 6909, 7094, 18766, }
 URL = 'https://propertysearch.arlingtonva.us/Home/GeneralInformation?lrsn={:05d}'
 USECOLS = ['LRSN', 'fetched', 'RPC', 'Address', 'Owner',
            'Legal Description', 'Mailing Address', 'Year Built', 'Units', 'EU#',
@@ -79,6 +80,9 @@ if __name__ == '__main__':
                 except ConnectionError as error:
                     sleep_period *= 2.0
                     logger.warning('connection error: sleeping %0.2f', sleep_period)
+                except ReadTimeout as error:
+                    sleep_period *= 2.0
+                    logger.warning('sleep timeout: sleeping %0.2f', sleep_period)
 
             soup = BeautifulSoup(result.text, 'html.parser')
             body = soup.find('body')
