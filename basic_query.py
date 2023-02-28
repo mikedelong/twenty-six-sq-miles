@@ -59,7 +59,7 @@ if __name__ == '__main__':
     prior_df = read_csv(filepath_or_buffer=output_file, usecols=USECOLS)
 
     documents = list()
-    for lrsn in range(150, 30000):
+    for lrsn in range(132, 30000):
         do_case = (lrsn not in SKIP)
         do_case &= lrsn not in prior_df['LRSN'].values
         if lrsn in prior_df['LRSN'].values:
