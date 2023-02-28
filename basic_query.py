@@ -59,7 +59,7 @@ if __name__ == '__main__':
     prior_df = read_csv(filepath_or_buffer=output_file, usecols=USECOLS)
 
     documents = list()
-    for lrsn in range(158, 30000):
+    for lrsn in range(150, 30000):
         do_case = (lrsn not in SKIP)
         do_case &= lrsn not in prior_df['LRSN'].values
         if lrsn in prior_df['LRSN'].values:
@@ -141,7 +141,7 @@ if __name__ == '__main__':
                 result_df.to_csv(path_or_buf=output_file, index=False)
     df = DataFrame(data=documents)
     result_df = concat([df, prior_df]).drop_duplicates(ignore_index=True)
-    result_df = result_df.sort_values(by='LRSN')
+    result_df = result_df.sort_values(by='LRSN').reset_index()
     logger.info('writing %d records to %s', len(result_df), output_file)
     result_df.to_csv(path_or_buf=output_file, index=False)
 
