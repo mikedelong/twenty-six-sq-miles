@@ -23,11 +23,37 @@ from requests.exceptions import ConnectionError
 from requests.exceptions import ReadTimeout
 
 DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
+DTYPES = {
+    'RPC': object,
+    'Address': object,
+    'Owner': object,
+    'Legal Description': object,
+    'Mailing Address': object,
+    'Year Built': float,
+    'Units': float,
+    'EU#': object,
+    'Property Class Code': object,
+    'Zoning': object,
+    'Lot Size': float,
+    'Neighborhood#': int,
+    'Map Book/Page': object,
+    'Polygon': object,
+    'Site Plan': object,
+    'Rezoning': float,
+    'Tax Exempt': object,
+    'LRSN': int,
+    'fetched': object,
+    'Condo Unit': object,
+    'Condo Model': object,
+    'Additional Owners': object,
+    'GFA': float,
+    'Trade Name': object,
+}
 LOG_FORMAT = '%(asctime)s.%(msecs)03d - %(levelname)s - %(name)s - %(message)s'
 LOG_PATH = Path('./logs/')
 OUTPUT_FILE = 'df.csv'
 OUTPUT_FOLDER = './data/'
-SKIP = {381, 2782, 2791, 4287, 6056, 6909, 7094, 18766, }
+SKIP = {381, 2782, 2791, 4287, 6056, 6909, 7094, 18766, 30354, 31769, 36067, 36454, }
 URL = 'https://propertysearch.arlingtonva.us/Home/GeneralInformation?lrsn={:05d}'
 USECOLS = ['LRSN', 'fetched', 'RPC', 'Address', 'Owner',
            'Legal Description', 'Mailing Address', 'Year Built', 'Units', 'EU#',
@@ -56,10 +82,10 @@ if __name__ == '__main__':
         logger.info('creating folder %s if it does not exist', folder)
         Path(folder).mkdir(parents=True, exist_ok=True)
 
-    prior_df = read_csv(filepath_or_buffer=output_file, usecols=USECOLS)
+    prior_df = read_csv(filepath_or_buffer=output_file, usecols=USECOLS, dtype=DTYPES, )
 
     documents = list()
-    for lrsn in range(132, 30000):
+    for lrsn in range(132, 40000):
         do_case = (lrsn not in SKIP)
         do_case &= lrsn not in prior_df['LRSN'].values
         if lrsn in prior_df['LRSN'].values:
