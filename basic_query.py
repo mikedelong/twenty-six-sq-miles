@@ -53,7 +53,8 @@ LOG_FORMAT = '%(asctime)s.%(msecs)03d - %(levelname)s - %(name)s - %(message)s'
 LOG_PATH = Path('./logs/')
 OUTPUT_FILE = 'df.csv'
 OUTPUT_FOLDER = './data/'
-SKIP = {381, 2782, 2791, 4287, 6056, 6909, 7094, 18766, 30354, 31769, 36067, 36454, 42235, 42236, 44302, 45654, 45655, }
+SKIP = {381, 2782, 2791, 4287, 6056, 6909, 7094, 18766, 30354, 31769, 36067, 36454, 42235, 42236, 44302, 45654, 45655,
+        45880, }
 URL = 'https://propertysearch.arlingtonva.us/Home/GeneralInformation?lrsn={:05d}'
 USECOLS = ['LRSN', 'fetched', 'RPC', 'Address', 'Owner',
            'Legal Description', 'Mailing Address', 'Year Built', 'Units', 'EU#',
@@ -85,6 +86,7 @@ if __name__ == '__main__':
     prior_df = read_csv(dtype=DTYPES, filepath_or_buffer=output_file, usecols=USECOLS, )
 
     documents = list()
+    count = 0
     for lrsn in range(132, 50000):
         do_case = (lrsn not in SKIP)
         do_case &= lrsn not in prior_df['LRSN'].values
@@ -160,7 +162,8 @@ if __name__ == '__main__':
                 prior_df = prior_df[prior_df['LRSN'] != lrsn]
                 logger.info('dropping LRSN %d from prior', lrsn)
             documents.append(document)
-            if lrsn % 10 == 0:
+            count += 1
+            if count % 10 == 0:
                 df = DataFrame(data=documents).drop_duplicates()
                 result_df = concat([df, prior_df]).drop_duplicates(ignore_index=True)
                 logger.info('writing %d records to %s', len(result_df), output_file)
