@@ -54,7 +54,7 @@ LOG_PATH = Path('./logs/')
 OUTPUT_FILE = 'df.csv'
 OUTPUT_FOLDER = './data/'
 SKIP = {381, 2782, 2791, 4287, 6056, 6909, 7094, 18766, 30354, 31769, 36067, 36454, 42235, 42236, 44302, 45654, 45655,
-        45880, }
+        45880, 46640, 46641, 46660, 46661, 46670, 47581, 47584, 47591, }
 URL = 'https://propertysearch.arlingtonva.us/Home/GeneralInformation?lrsn={:05d}'
 USECOLS = ['LRSN', 'fetched', 'RPC', 'Address', 'Owner',
            'Legal Description', 'Mailing Address', 'Year Built', 'Units', 'EU#',
