@@ -151,9 +151,11 @@ if __name__ == '__main__':
                                     document[pieces[0]] = ''
                                 else:
                                     document[pieces[0]] = pieces[1]
-                else:
+                elif lrsn == 381:
                     t0 = [item.text for item in subdivs]
                     t1 = [item.text.split('\n') for item in subdivs]
+                    pass
+                else:
                     for index, item in enumerate(subdivs):
                         pieces = item.text.split('\n')
                         pieces = [' '.join(piece.split()) for piece in pieces]
