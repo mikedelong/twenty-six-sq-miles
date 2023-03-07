@@ -152,15 +152,14 @@ if __name__ == '__main__':
                                 else:
                                     document[pieces[0]] = pieces[1]
                 elif lrsn == 381:
-                    t0 = [subitem for item in subdivs for subitem in item.text.split('\n') if subitem]
-                    for index, item in enumerate(subdivs):
-                        pieces = item.text.split('\n')
-                        pieces = [' '.join(piece.split()) for piece in pieces]
-                        pieces = [piece for piece in pieces if piece]
-                        if pieces:
-                            pass
-
-                    pass
+                    pieces = [subitem.strip() for item in subdivs for subitem in item.text.split('\n') if subitem.strip()]
+                    document['RPC'] = pieces[0]
+                    document['Address'] = pieces[1]
+                    for index in {4, 6, 12, 22, 24, 26, 34, 36, 38, 46, 48, 50, 58, 60, 62, }:
+                        document[pieces[index]] = pieces[index + 1]
+                    for index in {14,  }:
+                        field = ' '.join([pieces[index + 1], pieces[index + 2]])
+                        document[pieces[index]] = ' '.join(field.split())
                 else:
                     for index, item in enumerate(subdivs):
                         pieces = item.text.split('\n')
