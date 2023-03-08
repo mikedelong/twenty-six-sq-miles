@@ -150,6 +150,20 @@ if __name__ == '__main__':
                                     document[pieces[0]] = ''
                                 else:
                                     document[pieces[0]] = pieces[1]
+                elif subdivs[3].text != '(Inactive)' and lrsn not in {381, }:
+                    for index, item in enumerate(subdivs):
+                        pieces = item.text.split('\n')
+                        pieces = [' '.join(piece.split()) for piece in pieces]
+                        pieces = [piece for piece in pieces if piece]
+                        if pieces:
+                            if index == 1:
+                                document['RPC'] = pieces[0]
+                            elif index == 2:
+                                document['Address'] = pieces[0]
+                            elif index in {4, 5, 9, 10, 11, 13, 15, 16, 18, 19, 20, 22, 23, 24}:
+                                document[pieces[0]] = pieces[1]
+                            elif index == 6:
+                                document[pieces[0]] = ' '.join(pieces[1:])
                 elif lrsn == 381:
                     pieces = [subitem.strip() for item in subdivs for subitem in item.text.split('\n') if
                               subitem.strip()]
@@ -173,19 +187,7 @@ if __name__ == '__main__':
                     for index in {67, }:
                         document['Note'] = pieces[index]
                 else:
-                    for index, item in enumerate(subdivs):
-                        pieces = item.text.split('\n')
-                        pieces = [' '.join(piece.split()) for piece in pieces]
-                        pieces = [piece for piece in pieces if piece]
-                        if pieces:
-                            if index == 1:
-                                document['RPC'] = pieces[0]
-                            elif index == 2:
-                                document['Address'] = pieces[0]
-                            elif index in {4, 5, 9, 10, 11, 13, 15, 16, 18, 19, 20, 22, 23, 24}:
-                                document[pieces[0]] = pieces[1]
-                            elif index == 6:
-                                document[pieces[0]] = ' '.join(pieces[1:])
+                    raise NotImplementedError(lrsn)
                 document['LRSN'] = lrsn
                 document['fetched'] = now()
                 if lrsn in prior_df['LRSN'].values:
