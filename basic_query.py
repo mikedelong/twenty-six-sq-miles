@@ -53,7 +53,7 @@ LOG_FORMAT = '%(asctime)s.%(msecs)03d - %(levelname)s - %(name)s - %(message)s'
 LOG_PATH = Path('./logs/')
 OUTPUT_FILE = 'df.csv'
 OUTPUT_FOLDER = './data/'
-SKIP = {2782, 2791, 4287, 6056, 6909, 7094, 18766, 30354, 31769, 36067, 36454, 42235, 42236, 44302, 45654, 45655,
+SKIP = {2791, 4287, 6056, 6909, 7094, 18766, 30354, 31769, 36067, 36454, 42235, 42236, 44302, 45654, 45655,
         45880, 46640, 46641, 46660, 46661, 46670, 47581, 47584, 47591, 47731, 47975, 48279, 48562, 48564, 48577, 48579,
         48587, 48589, 48597, 48599, 48610, 48613, 48748, 48749, 48750, 48753, 48754, 48755, 48758, 48759, 48760, 48854,
         48966, 48993, 49011, 49344, 49375, 49397, 49414, 49694, 50010, 50055, 50056, 50115, 54050, 54288, 57976, 57977,
@@ -131,7 +131,7 @@ if __name__ == '__main__':
                 subs = divs[3].find_all('div')
                 subdivs = subs[0].find_all('div')
                 document = dict()
-                if subdivs[3].text == '(Inactive)':
+                if subdivs[3].text == '(Inactive)' and lrsn not in {2782, }:
                     for index, item in enumerate(subdivs):
                         pieces = item.text.split('\n')
                         pieces = [' '.join(piece.split()) for piece in pieces]
@@ -151,14 +151,27 @@ if __name__ == '__main__':
                                 else:
                                     document[pieces[0]] = pieces[1]
                 elif lrsn == 381:
-                    pieces = [subitem.strip() for item in subdivs for subitem in item.text.split('\n') if subitem.strip()]
+                    pieces = [subitem.strip() for item in subdivs for subitem in item.text.split('\n') if
+                              subitem.strip()]
                     document['RPC'] = pieces[0]
                     document['Address'] = pieces[1]
                     for index in {4, 6, 12, 22, 24, 26, 34, 36, 38, 46, 48, 50, 58, 60, 62, }:
                         document[pieces[index]] = pieces[index + 1]
-                    for index in {14,  }:
+                    for index in {14, }:
                         field = ' '.join([pieces[index + 1], pieces[index + 2]])
                         document[pieces[index]] = ' '.join(field.split())
+                elif lrsn == 2782:
+                    pieces = [subitem.strip() for item in subdivs for subitem in item.text.split('\n') if
+                              subitem.strip()]
+                    document['RPC'] = pieces[0]
+                    document['Address'] = pieces[1]
+                    for index in {5, 7, 19, 21, 23, 31, 33, 35, 43, 45, 47, 55, 57, 59, }:
+                        document[pieces[index]] = pieces[index + 1]
+                    for index in {13, }:
+                        field = ' '.join([pieces[index + 1], pieces[index + 2]])
+                        document[pieces[index]] = ' '.join(field.split())
+                    for index in {67, }:
+                        document['Note'] = pieces[index]
                 else:
                     for index, item in enumerate(subdivs):
                         pieces = item.text.split('\n')
