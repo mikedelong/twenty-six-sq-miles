@@ -164,7 +164,7 @@ if __name__ == '__main__':
                                 document[pieces[0]] = pieces[1]
                             elif index == 6:
                                 document[pieces[0]] = ' '.join(pieces[1:])
-                elif lrsn == 381:
+                elif lrsn in {381, }:
                     pieces = [subitem.strip() for item in subdivs for subitem in item.text.split('\n') if
                               subitem.strip()]
                     document['RPC'] = pieces[0]
@@ -174,7 +174,7 @@ if __name__ == '__main__':
                     for index in {14, }:
                         field = ' '.join([pieces[index + 1], pieces[index + 2]])
                         document[pieces[index]] = ' '.join(field.split())
-                elif lrsn == 2782:
+                elif lrsn in {2782, }:
                     pieces = [subitem.strip() for item in subdivs for subitem in item.text.split('\n') if
                               subitem.strip()]
                     document['RPC'] = pieces[0]
