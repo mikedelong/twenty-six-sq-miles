@@ -49,6 +49,7 @@ DTYPES = {
     'GFA': float,
     'Trade Name': object,
 }
+FALSE = False
 LOG_FORMAT = '%(asctime)s.%(msecs)03d - %(levelname)s - %(name)s - %(message)s'
 LOG_PATH = Path('./logs/')
 OUTPUT_FILE = 'df.csv'
@@ -133,7 +134,7 @@ if __name__ == '__main__':
                 subs = divs[3].find_all('div')
                 subdivs = subs[0].find_all('div')
                 document = dict()
-                if False:
+                if FALSE:
                     pass
                 elif subdivs[3].text == '(Inactive)' and lrsn not in {2782, 2791, }:
                     for index, item in enumerate(subdivs):
