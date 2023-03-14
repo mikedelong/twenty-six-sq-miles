@@ -50,6 +50,7 @@ DTYPES = {
     'Trade Name': object,
 }
 FALSE = False
+INACTIVE_SPECIAL_CASES = {2782, 2791, 4287, 6056, 6909, }
 LOG_FORMAT = '%(asctime)s.%(msecs)03d - %(levelname)s - %(name)s - %(message)s'
 LOG_PATH = Path('./logs/')
 OUTPUT_FILE = 'df.csv'
@@ -135,7 +136,7 @@ if __name__ == '__main__':
                 document = dict()
                 if FALSE:
                     pass
-                elif subdivs[3].text == '(Inactive)' and lrsn not in {2782, 2791, 4287, 6056, 6909, }:
+                elif subdivs[3].text == '(Inactive)' and lrsn not in INACTIVE_SPECIAL_CASES:
                     for index, item in enumerate(subdivs):
                         pieces = item.text.split('\n')
                         pieces = [' '.join(piece.split()) for piece in pieces]
@@ -178,7 +179,7 @@ if __name__ == '__main__':
                     for index in {14, }:
                         field = ' '.join([pieces[index + 1], pieces[index + 2]])
                         document[pieces[index]] = ' '.join(field.split())
-                elif lrsn in {2782, 2791, 4287, 6056, 6909, }:
+                elif lrsn in INACTIVE_SPECIAL_CASES:
                     pieces = [subitem.strip() for item in subdivs for subitem in item.text.split('\n') if
                               subitem.strip()]
                     document['RPC'] = pieces[0]
