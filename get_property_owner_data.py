@@ -81,7 +81,7 @@ if __name__ == '__main__':
 
     set_option('display.max_colwidth', None)  # was -1 and caused a warning
     run_start_time = now().strftime('%Y-%m-%d_%H-%M-%S')
-    file_root_name = 'basic_query'
+    file_root_name = 'get_property_owner_data'
     LOGFILE = '{}/log-{}-{}.log'.format(LOG_PATH, run_start_time, file_root_name)
 
     handlers = [FileHandler(LOGFILE), StreamHandler(stdout)]
