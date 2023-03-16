@@ -54,6 +54,7 @@ DTYPES = {
 }
 FALSE = False
 INACTIVE_SPECIAL_CASES = {2782, 2791, 4287, 6056, 6909, 7094, }
+INPUT_FILE = 'df.csv'
 LOG_FORMAT = '%(asctime)s.%(msecs)03d - %(levelname)s - %(name)s - %(message)s'
 LOG_PATH = Path('./logs/')
 OUTPUT_FILE = 'df.csv'
@@ -91,12 +92,14 @@ if __name__ == '__main__':
     logger = getLogger()
     logger.info('started')
 
-    output_file = OUTPUT_FOLDER + OUTPUT_FILE
     for folder in [OUTPUT_FOLDER]:
         logger.info('creating folder %s if it does not exist', folder)
         Path(folder).mkdir(parents=True, exist_ok=True)
 
-    prior_df = read_csv(dtype=DTYPES, filepath_or_buffer=output_file, usecols=USECOLS, )
+    input_file = OUTPUT_FOLDER + INPUT_FILE
+    logger.info('reading current data from %s', input_file)
+    prior_df = read_csv(dtype=DTYPES, filepath_or_buffer=input_file, usecols=USECOLS, )
+    output_file = OUTPUT_FOLDER + OUTPUT_FILE
 
     documents = list()
     count = 0
