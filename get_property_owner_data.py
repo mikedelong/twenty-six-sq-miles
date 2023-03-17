@@ -25,6 +25,7 @@ from requests.exceptions import ReadTimeout
 CURRENT = {
     30354,
 }
+DATA_FOLDER = './data/'
 DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
 DTYPES = {
     'RPC': object,
@@ -58,7 +59,6 @@ INPUT_FILE = 'df.csv'
 LOG_FORMAT = '%(asctime)s.%(msecs)03d - %(levelname)s - %(name)s - %(message)s'
 LOG_PATH = Path('./logs/')
 OUTPUT_FILE = 'property_owner_data.csv'
-OUTPUT_FOLDER = './data/'
 SKIP = {
     18766, 31769, 36067, 36454, 42235, 42236, 44302, 45654, 45655, 45880, 46640, 46641, 46660, 46661, 46670,
     47581, 47584, 47591, 47731, 47975, 48279, 48562, 48564, 48577, 48579, 48587, 48589, 48597, 48599, 48610, 48613,
@@ -91,14 +91,14 @@ if __name__ == '__main__':
     logger = getLogger()
     logger.info('started')
 
-    for folder in [OUTPUT_FOLDER]:
+    for folder in [DATA_FOLDER]:
         logger.info('creating folder %s if it does not exist', folder)
         Path(folder).mkdir(parents=True, exist_ok=True)
 
-    input_file = OUTPUT_FOLDER + INPUT_FILE
+    input_file = DATA_FOLDER + INPUT_FILE
     logger.info('reading current data from %s', input_file)
     prior_df = read_csv(dtype=DTYPES, filepath_or_buffer=input_file, usecols=USECOLS, )
-    output_file = OUTPUT_FOLDER + OUTPUT_FILE
+    output_file = DATA_FOLDER + OUTPUT_FILE
 
     documents = list()
     count = 0
