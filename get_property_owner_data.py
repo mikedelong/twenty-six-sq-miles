@@ -55,7 +55,7 @@ DTYPES = {
 }
 FALSE = False
 INACTIVE_SPECIAL_CASES = {2782, 2791, 4287, 6056, 6909, 7094, }
-INPUT_FILE = 'df.csv'
+INPUT_FILE = 'property_owner_data.csv'
 LOG_FORMAT = '%(asctime)s.%(msecs)03d - %(levelname)s - %(name)s - %(message)s'
 LOG_PATH = Path('./logs/')
 OUTPUT_FILE = 'property_owner_data.csv'
