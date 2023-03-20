@@ -52,7 +52,7 @@ DTYPES = {
 }
 FALSE = False
 INACTIVE_TYPE_1 = {2782, 2791, 4287, 6056, 6909, 7094, }
-INACTIVE_TYPE_2 = { 30354, }
+INACTIVE_TYPE_2 = {30354, }
 INPUT_FILE = 'property_owner_data.csv'
 LOG_FORMAT = '%(asctime)s.%(msecs)03d - %(levelname)s - %(name)s - %(message)s'
 LOG_PATH = Path('./logs/')
