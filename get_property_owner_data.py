@@ -136,6 +136,37 @@ if __name__ == '__main__':
                 document = dict()
                 if FALSE:
                     pass
+                elif lrsn in {381, }:
+                    pieces = [subitem.strip() for item in subdivs for subitem in item.text.split('\n') if
+                              subitem.strip()]
+                    document['RPC'] = pieces[0]
+                    document['Address'] = pieces[1]
+                    for index in {4, 6, 12, 22, 24, 26, 34, 36, 38, 46, 48, 50, 58, 60, 62, }:
+                        document[pieces[index]] = pieces[index + 1]
+                    for index in {14, }:
+                        field = ' '.join([pieces[index + 1], pieces[index + 2]])
+                        document[pieces[index]] = ' '.join(field.split())
+                elif lrsn in INACTIVE_TYPE_1:
+                    pieces = [subitem.strip() for item in subdivs for subitem in item.text.split('\n') if
+                              subitem.strip()]
+                    document['RPC'] = pieces[0]
+                    document['Address'] = pieces[1]
+                    for index in {5, 7, 19, 21, 23, 31, 33, 35, 43, 45, 47, 55, 57, 59, }:
+                        document[pieces[index]] = pieces[index + 1]
+                    for index in {13, }:
+                        field = ' '.join([pieces[index + 1], pieces[index + 2]])
+                        document[pieces[index]] = ' '.join(field.split())
+                    for index in {67, }:
+                        document['Note'] = pieces[index]
+                elif lrsn in INACTIVE_TYPE_2:
+                    pieces = [subitem.strip() for item in subdivs for subitem in item.text.split('\n') if
+                              subitem.strip()]
+                    document['RPC'] = pieces[0]
+                    document['Address'] = pieces[1]
+                    document['Legal Description'] = ''
+                    document['Mailing Address'] = ' '.join(pieces[12].split() + pieces[13].split())
+                    for index in {5, 17, 19, 21, 23, 29, 31, 33, 41, 43, 45, 53, 55, 57, }:
+                        document[pieces[index]] = pieces[index + 1]
                 elif subdivs[3].text == '(Inactive)' and lrsn not in INACTIVE_TYPE_1 and lrsn not in INACTIVE_TYPE_2:
                     for index, item in enumerate(subdivs):
                         pieces = item.text.split('\n')
@@ -169,37 +200,6 @@ if __name__ == '__main__':
                                 document[pieces[0]] = pieces[1]
                             elif index == 6:
                                 document[pieces[0]] = ' '.join(pieces[1:])
-                elif lrsn in {381, }:
-                    pieces = [subitem.strip() for item in subdivs for subitem in item.text.split('\n') if
-                              subitem.strip()]
-                    document['RPC'] = pieces[0]
-                    document['Address'] = pieces[1]
-                    for index in {4, 6, 12, 22, 24, 26, 34, 36, 38, 46, 48, 50, 58, 60, 62, }:
-                        document[pieces[index]] = pieces[index + 1]
-                    for index in {14, }:
-                        field = ' '.join([pieces[index + 1], pieces[index + 2]])
-                        document[pieces[index]] = ' '.join(field.split())
-                elif lrsn in INACTIVE_TYPE_1:
-                    pieces = [subitem.strip() for item in subdivs for subitem in item.text.split('\n') if
-                              subitem.strip()]
-                    document['RPC'] = pieces[0]
-                    document['Address'] = pieces[1]
-                    for index in {5, 7, 19, 21, 23, 31, 33, 35, 43, 45, 47, 55, 57, 59, }:
-                        document[pieces[index]] = pieces[index + 1]
-                    for index in {13, }:
-                        field = ' '.join([pieces[index + 1], pieces[index + 2]])
-                        document[pieces[index]] = ' '.join(field.split())
-                    for index in {67, }:
-                        document['Note'] = pieces[index]
-                elif lrsn in INACTIVE_TYPE_2:
-                    pieces = [subitem.strip() for item in subdivs for subitem in item.text.split('\n') if
-                              subitem.strip()]
-                    document['RPC'] = pieces[0]
-                    document['Address'] = pieces[1]
-                    document['Legal Description'] = ''
-                    document['Mailing Address'] = ' '.join(pieces[12].split() + pieces[13].split())
-                    for index in {5, 17, 19, 21, 23, 29, 31, 33, 41, 43, 45, 53, 55, 57, }:
-                        document[pieces[index]] = pieces[index + 1]
                 else:
                     raise NotImplementedError(lrsn)
                 document['LRSN'] = lrsn
