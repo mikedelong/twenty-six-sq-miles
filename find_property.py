@@ -48,5 +48,7 @@ if __name__ == '__main__':
 
     input_file = DATA_FOLDER + INPUT_FILE
     df = read_dataframe(filename=input_file)
+    logger.info('loaded %d rows from %s', len(df), input_file)
 
+    found_df = df[df['Owner'].str.contains('SMITH')]
     logger.info('total time: {:5.2f}s'.format((now() - time_start).total_seconds()))
